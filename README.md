@@ -3,51 +3,57 @@
 # Quaddl
 ### A campus marketplace built across web, iOS, and Android
 
-**Full-stack engineering showcase · Isaiah Maxwell**
+**A full-stack project by Isaiah Maxwell**
 
 [Explore Quaddl](https://quaddl.com) · [Request employer demo access](https://quaddl.com/contact) · [Architecture](#system-architecture) · [Mobile app](#mobile-app) · [Engineering decisions](#engineering-decisions-and-tradeoffs)
 
 </div>
 
-Quaddl helps university students buy, sell, and swap items within their campus community. It combines campus-scoped discovery, seller profiles, conversations, saved listings, and account email workflows in a responsive website and a dedicated mobile app.
+Quaddl is a marketplace where university students can buy, sell, and swap items with people on their campus. It brings listings, saved items, seller profiles, reviews, and messages into one website and mobile app.
 
-I built the product across the interface, API, relational data model, native integrations, and deployment stack. The engineering challenge extends beyond displaying listings: each action needs the right identity, campus, permissions, and database context, while the experience should remain straightforward on a phone.
+The goal is simple: make it easier to find something nearby, learn about the seller, and arrange a pickup without jumping between different apps.
 
-> **About this repository:** This is a public product and architecture case study. Application source code is private. Only `README.md` is tracked here; screenshots and the GIF are hosted as release attachments.
+## My role and the tools I used
 
-## The project in 60 seconds
+**I designed Quaddl’s architecture.** I chose how the website, mobile app, backend, databases, and outside services would work together, including keeping employer demo data separate from student data.
 
-- **Product:** A university marketplace with listings, buyer–seller conversations, profiles, reviews, and campus identity.
-- **Clients:** React/TypeScript website plus a separate React/Capacitor mobile interface packaged for iOS and Android.
-- **Backend:** A Java/Spring Boot REST API with authentication, authorization, validation, database access, and email workflows.
-- **Deployment:** Cloudflare-hosted website; containerized API and PostgreSQL on an OVHcloud VPS behind Caddy.
+I used **ChatGPT and GitHub Copilot** to help with writing code, debugging errors, and working through implementation details. This was an AI-assisted build. The architecture and overall project direction were my own, and the sections below explain those decisions and what I would improve next.
+
+> This repository is a walkthrough of the project. The application source is private. Only `README.md` is tracked here; screenshots and the GIF are stored as release attachments.
+
+## A quick overview
+
+- **What it does:** Students can list items, browse their campus marketplace, save things, and message sellers.
+- **Website and app:** React and TypeScript, with Capacitor for the iOS and Android apps.
+- **Backend:** Java and Spring Boot handle accounts, permissions, listings, messages, and email.
+- **Hosting:** The website is on Cloudflare. The API and PostgreSQL run in Docker on an OVHcloud VPS, with Caddy handling HTTPS.
 - **Portfolio demo:** Invited employers can try real account and email workflows using fictional marketplace data in a separate database.
-- **Engineering focus:** Access boundaries, safe demo design, transactional behavior, native interactions, and deployment without exposing student data.
+- **Main challenges:** Keeping campus and demo data separate, handling failed requests, and making the app comfortable to use on a phone.
 
 ## Employer demo access
 
 **Hiring managers and recruiters: [request an invitation through Quaddl’s contact form](https://quaddl.com/contact).** Choose **Other** as the topic and start your message with **Employer demo access**.
 
-Please include your name, company or role, and the email address you would like approved. A work or personal email can be invited; an `.edu` address is not required for approved employer demo accounts. Approval is handled manually, so please request access before attempting demo registration.
+Please include your name, company or role, and the email address you would like approved. A work or personal email can be invited; an `.edu` address is not required for approved employer demo accounts. I add demo addresses manually, so please request access before signing up.
 
 Once your address is approved, you can:
 
 1. Create your own account and verify your email.
 2. Browse clearly labeled fictional listings and save an item.
 3. Publish, edit, and delete a sample listing.
-4. Explore seller profiles and the conversation experience.
+4. Open seller profiles and try messaging.
 5. Request a password reset and receive the email at your approved address.
 6. Preview campus themes on the website and mobile app.
 
-The demo uses a separate database from the student marketplace. Real demo emails are restricted to approved recipients and subject to sending limits. Users must confirm they are **18 or older** and accept the terms. No shared mailbox or shared account password is needed.
+The demo has its own database, so you won’t be interacting with student accounts or listings. Emails go only to approved addresses, with limits on how often they can be sent. You use your own account and email address. The **18+ confirmation** and terms still apply.
 
 **Suggested review path:** browse → open a listing → save it → publish a sample item → edit it → try a password-reset email. The site displays **“Portfolio demo — sample listings.”** No real purchases are involved.
 
 ## Product preview
 
-The captures below use fictional development data. They show the implemented interface; they are not evidence of live users, completed purchases, or marketplace traction.
+These screenshots use sample accounts and listings from development.
 
-### Website: campus identity and seller profiles
+### Website: seller profiles and campus colors
 
 ![Quaddl desktop seller profile with a campus-colored header, listing tabs, reviews, and a report control](https://github.com/bizzyizzymax-bot/Quaddl-Showcase/releases/download/showcase-media-v1/web-profile.png)
 
@@ -62,7 +68,7 @@ The captures below use fictional development data. They show the implemented int
 <details>
 <summary><strong>Animated mobile interface gallery</strong></summary>
 
-This GIF rotates actual screenshots of browsing, campus themes, and settings. It is an animated gallery, not a recording of taps or transition timing.
+This GIF cycles through screenshots of the marketplace, campus themes, and settings. I’ll replace it with a screen recording of the full flow later.
 
 <p align="center">
   <img src="https://github.com/bizzyizzymax-bot/Quaddl-Showcase/releases/download/showcase-media-v1/mobile-interface-gallery.gif" alt="Animated gallery of Quaddl mobile marketplace, theme selection, and settings sidebar" width="300" />
@@ -77,31 +83,31 @@ Suggested recording: choose photos -> reorder cover -> complete six steps -> pub
 Do not publish real email addresses, reset codes, verification links, tokens, or private conversations in media.
 -->
 
-## The problems Quaddl addresses
+## Why build a campus marketplace?
 
-| Student problem | Product response |
+| Problem | How Quaddl handles it |
 | --- | --- |
-| Campus items are scattered across chat threads and broad local feeds. | A structured marketplace scoped to the student’s university, with searchable listings and category/condition filters. |
-| Buyers need context before contacting a seller. | Listing details, campus affiliation, seller profiles, ratings, reviews, and active/sold listing history. |
-| Selling from a phone can become a long, error-prone form. | Guided mobile listing creation and editing with photos, descriptions, condition, price, payment preferences, and pickup details. |
-| Users need ways to control unwanted interactions. | Blocking, listing/profile reporting, ownership checks, and content validation. |
-| Campus identity is often missing from generic marketplaces. | University-specific visual themes, with a default appearance option and light/dark support. |
+| Campus items are scattered across chat threads and broad local feeds. | Students browse listings from their university and can search or filter by category and condition. |
+| Buyers need context before contacting a seller. | Profiles show the seller’s campus, ratings, reviews, and active or sold listings. |
+| Selling from a phone can become a long, error-prone form. | The mobile form breaks creating and editing a listing into six smaller steps. |
+| Users need ways to control unwanted interactions. | Users can block accounts and report listings or profiles. The backend checks who is allowed to make changes. |
+| Campus identity is often missing from generic marketplaces. | Campus colors give each marketplace its own look, with a default theme and light/dark options. |
 
-### How the approach differs
+### What makes Quaddl different?
 
-These are Quaddl’s design choices, rather than claims that no competing app offers similar features.
+Other campus marketplaces may offer similar features. What I focused on with Quaddl is how these pieces work together:
 
 | Design choice | Why it matters |
 | --- | --- |
-| Campus membership influences server-side listing access. | Campus relevance is part of the data-access model, rather than only a visual filter. |
-| Listing discovery, profiles, reviews, and conversations share one account system. | Users can move from evaluating an item to contacting its seller without switching to another service. |
-| A separate mobile interface uses the same backend contract as the website. | Mobile can have guided forms, touch gestures, and native photo selection while preserving consistent business rules. |
-| An invited employer demo has its own database and controlled email delivery. | Recruiters can evaluate the full product without needing a university email or interacting with student data. |
-| Campus theme changes are appearance preferences. | Previewing Virginia Tech or Duke does not change a user’s permissions, campus membership, or database routing. |
+| The backend checks campus membership when loading listings. | The campus boundary is enforced by the API, so changing a filter in the browser does not grant access to another campus. |
+| Listings, profiles, reviews, and messages use the same account. | A buyer can look at an item, check the seller, and start a conversation in one place. |
+| The mobile interface is built for a phone and uses the same API as the website. | The app gets stepped forms, gestures, and a native photo picker while the backend keeps the rules consistent. |
+| The employer demo uses a separate database and approved email recipients. | Employers can try account creation and real emails without a university address or access to student data. |
+| Theme changes only affect appearance. | An employer can preview different campus colors without changing their account’s access. |
 
 ## What users can do
 
-| Area | Implemented capabilities |
+| Area | Features |
 | --- | --- |
 | Accounts | Registration, email verification, email/password login, password recovery, profile editing, required 18+ and terms confirmation, and account deletion. Google sign-in integrations are also present; platform status is noted below. |
 | Marketplace | Browse and search; category, condition, and sort controls; listing detail pages; create/edit/delete; active/sold status; pickup address suggestions and maps. |
@@ -110,13 +116,13 @@ These are Quaddl’s design choices, rather than claims that no competing app of
 | Safety and support | Block users, report listings/profiles, contact support, validate submissions, enforce ownership, and apply configured moderation checks. |
 | Personalization | Default/campus appearance options, light/dark/system appearance, and employer previews for UNC Charlotte, ECU, NC State, UNC, Virginia Tech, and Duke. |
 
-**Scope:** Payment methods are preferences for arranging a transaction. Quaddl does not currently process payments, hold escrow, verify delivery, or guarantee a transaction. The 18+ requirement is a user confirmation, not identity-document verification.
+**A couple of limits:** Quaddl lets sellers list accepted payment methods, but payments happen outside the app. It does not offer checkout or escrow. Users confirm that they are 18 or older; there is no ID verification system.
 
 ## Mobile app
 
-The mobile app has its own React interface and native iOS/Android projects through **Capacitor**. It is a hybrid application rendered in a native WebView, with native capabilities exposed through plugins; it is not a React Native implementation.
+I used **Capacitor** to package a separate React interface for iOS and Android. The UI runs in a native WebView, and plugins connect it to phone features like the photo library, keyboard, and share menu.
 
-Mobile-specific work includes:
+Some of the mobile features are:
 
 - A photo-focused two-column feed and floating bottom navigation with a prominent Sell action.
 - Six-step listing creation **and editing**: photos → title/description → category/condition → price/payment methods → pickup → review/publish.
@@ -128,11 +134,11 @@ Mobile-specific work includes:
 
 ### Store release status
 
-**Quaddl has not yet been uploaded or submitted to the Apple App Store or Google Play Store.** Native development builds exist for iOS and Android. The current release plan is waiting on **LLC formation** before proceeding with organization developer-account setup and store submissions.
+**Quaddl still needs to be uploaded to the Apple App Store and Google Play Store.** There are development builds for iOS and Android. I’m currently waiting on **LLC formation** before setting up the organization developer accounts and submitting the app.
 
-LLC setup is a pending business milestone for this project's release plan, rather than a statement that every app developer must form an LLC. Store availability will be added here after submission and approval.
+The LLC is part of my release plan. Once the app is approved, I’ll add the store links here.
 
-Google sign-in was configured for web and iOS; Android OAuth configuration and release-signing validation remain release tasks. Push-notification support is represented by an installed native plugin, not a claim of verified end-to-end push delivery.
+Google sign-in is configured for the website and iOS. Android Google sign-in and release signing still need to be finished and tested. The push-notification plugin is installed, but push delivery is not finished yet.
 
 ## System architecture
 
@@ -153,11 +159,13 @@ flowchart TB
   Web --> Brand[Logo.dev and campus palette resolution]
 ```
 
-**One API deployment, separate data contexts.** Authentication establishes the applicable database context; authenticated requests carry a signed database claim. Routing runs before user lookup and application handlers, so identity resolution and subsequent operations use the same context. Employer invitations are checked server-side. The employer datasource configuration rejects using the same database or database user as production.
+Both the website and mobile app use the same API. Student accounts and employer demo accounts use separate PostgreSQL databases.
 
-Inside the API, controllers accept validated requests, services apply business rules and authorization, repositories manage persistence, and response DTOs expose the fields needed by each client. Feature areas include accounts, schools, listings, images, saved items, conversations/messages, reviews, reports, blocking, support, and demo policy.
+After checking a signed token, the backend selects the correct database before looking up the user or handling the request. It also checks that an employer’s email is still on the invitation list. The database setup rejects a demo configuration that points to the same database or database user as production.
 
-**Core relationships:** Profiles own listings; listings have ordered images and conversations; conversations contain messages. Saved listings connect profiles to listings. Reviews connect a reviewer to a seller, while blocks and reports provide separate safety controls. Image bytes currently live in PostgreSQL as an MVP tradeoff.
+The backend follows a controller → service → repository structure. Controllers handle requests, services apply the rules, and repositories read and write data. Response DTOs control what each client receives.
+
+**Main data relationships:** A profile owns listings. Each listing has photos and can have conversations, which contain messages. Saved items connect users to listings, and reviews connect a reviewer to a seller. Blocks and reports are stored separately. For now, image files are stored in PostgreSQL too.
 
 ### Example: publishing a listing
 
@@ -178,31 +186,39 @@ sequenceDiagram
   UI->>Seller: Open new listing and show celebration
 ```
 
-The client celebrates only a successful server response. Failed validation or publishing leaves the user in the form rather than pretending an item was created.
+The app opens the new listing and shows confetti after the server confirms it was saved. If something fails, the user stays in the form and can fix the problem.
 
 ## Engineering decisions and tradeoffs
 
-### 1. Make authorization a backend responsibility
+### 1. Checking permissions in the backend
 
-A hidden button is not sufficient protection. Listing and review operations derive the acting user from the authenticated identity, check ownership or permitted relationships, and enforce workspace/campus rules. Blocking also affects discovery and interaction paths. JWT validation, BCrypt password hashing, email verification, and eligibility checks support the account boundary.
+Hiding an Edit or Delete button does not stop someone from sending an API request. The backend checks the signed-in user, ownership, and campus or demo access before allowing those actions. Blocking also affects which listings people see and who they can interact with.
 
-### 2. Make a useful demo without mixing it with student data
+Accounts use JWTs, BCrypt password hashing, email verification, and the required eligibility confirmation.
 
-A shared production database would make a demo easy to launch but difficult to isolate. Quaddl routes the employer experience to a separate PostgreSQL database and database user. Invitations are exact email addresses, not unrestricted domains. A centralized demo mail policy checks recipients and reserves a persisted send budget before allowing email delivery.
+### 2. Giving employers a demo that actually works
 
-This adds routing and testing complexity, but allows real verification/reset emails and meaningful product evaluation with fictional listings. Appearance choices remain independent of that access boundary.
+I wanted employers to be able to post an item and receive a verification or reset email without using student data. I designed the demo around a separate database and an approved email list.
 
-### 3. Preserve successful writes when notification delivery fails
+That takes more setup than putting everyone in the same database. It also means the backend has to keep the right database context throughout a request. The benefit is that employers can try the product with their own email address while student data stays separate. Email limits help prevent people from using the demo to send unwanted mail.
 
-Message notification email is triggered after the database transaction commits. A mail failure should not erase a saved conversation message or cause the interface to report that the message itself failed. The current design still needs a durable outbox and retry worker for stronger delivery guarantees; after-commit listeners alone are not a reliable queue.
+### 3. Handling email failures after a message is saved
 
-### 4. Share business rules while adapting the mobile experience
+A conversation message is saved before its notification email is sent. If email delivery fails, the saved message should still be available.
 
-The website and mobile app share API concepts and TypeScript data contracts, but have separate UI source trees. That supports different layouts and gestures while introducing duplication that must be kept aligned. A future shared package could centralize contracts, validation, theme definitions, and reusable state logic.
+The current code sends the notification after the database transaction commits. That handles part of the problem, but it does not guarantee delivery. I would add a persistent queue or outbox with retries next.
 
-### 5. Prefer clear operational boundaries over premature infrastructure
+### 4. Keeping web and mobile consistent
 
-The backend is a modular application deployed with Docker Compose, rather than a collection of microservices. PostgreSQL holds the relational data and MVP image storage. This is manageable for the current product, while keeping the next scaling changes explicit: object storage, database-side pagination, background processing, and observability.
+The website and mobile app use the same API, but their UI code is separate. That gave me room to change the mobile navigation, forms, and gestures without forcing the desktop layout onto a phone.
+
+The downside is duplicated types, validation, and theme code. I would move those pieces into a shared package to make updates easier to keep in sync.
+
+### 5. Keeping deployment manageable
+
+I chose one Spring Boot backend with separate feature areas, deployed through Docker Compose. I did not need multiple services just to split accounts, listings, and messages apart.
+
+Storing photos in PostgreSQL also kept the first version simpler. As the app grows, object storage and smaller database queries would be more useful than adding infrastructure without knowing what is slow.
 
 ## Technology stack
 
@@ -215,21 +231,21 @@ The backend is a modular application deployed with Docker Compose, rather than a
 | Persistence | **PostgreSQL**, **Spring Data JPA/Hibernate**, JDBC, **HikariCP**, transactions, separate routing datasources for student and employer data. |
 | Maps and visual identity | **Geoapify** autocomplete/maps, **MapLibre GL**, **Logo.dev**, **color-thief-react** palette extraction, published campus color presets, **DM Sans** and **Montserrat Alternates**, CSS/SVG interface icons. |
 | Email, moderation, support | **Spring Mail/JavaMail and SMTP**, branded emails, after-commit notification listeners, demo sending budgets; **OpenAI moderation API** when configured. **FreeScout** is deployed alongside the service stack for helpdesk operations. |
-| Infrastructure and delivery | **OVHcloud VPS/Ubuntu**, **Docker and Docker Compose**, **Caddy** reverse proxy/TLS, **Cloudflare Workers static assets/CDN and DNS**, **Wrangler**, **Git and GitHub**, npm and dependency lockfiles. |
-| Verification and tooling | **JUnit/Jupiter, Mockito, Spring Boot Test, Spring Security Test, H2** for backend tests; **Node.js built-in test runner** for TypeScript-related checks; TypeScript type checking, **Oxlint**, production builds, and native development builds. |
+| Infrastructure and delivery | **OVHcloud VPS/Ubuntu**, **Docker and Docker Compose**, **Caddy** reverse proxy/TLS, **Cloudflare Workers static assets/CDN and DNS**, **Wrangler**, **Git and GitHub**, npm and dependency lockfiles. **ChatGPT and GitHub Copilot** assisted development and debugging. |
+| Testing and tooling | **JUnit/Jupiter, Mockito, Spring Boot Test, Spring Security Test, H2** for backend tests; **Node.js built-in test runner** for TypeScript-related checks; TypeScript type checking, **Oxlint**, production builds, and native development builds. |
 
 <details>
-<summary>Dependency inventory versus verified product behavior</summary>
+<summary>Libraries that are installed but not fully in use</summary>
 
-The frontend/mobile manifests also include **TensorFlow.js** and **NSFWJS**. Their installation does not mean an active client-side ML moderation workflow is demonstrated here; the verified content-checking path is the configurable backend moderation integration. Capacitor **Haptics** and **Push Notifications** packages are also present; package installation alone is not proof of a shipped haptic interaction or functioning push service.
+**TensorFlow.js** and **NSFWJS** are in the project dependencies, but there is no active client-side ML moderation flow shown here. The backend has an optional OpenAI moderation integration.
 
-The stack table describes the application and direct supporting tools, rather than listing every transitive dependency. Provider credentials, release signing, platform settings, and feature configuration affect availability.
+The Capacitor **Haptics** and **Push Notifications** packages are also installed. Push delivery is still a release task. I’ve kept these separate from the finished features so the list reflects what actually works, not just what is in a package file.
 
 </details>
 
-## Quality and validation
+## How I check the app
 
-Development checks cover both expected behavior and boundaries that are easy to miss in a marketplace:
+Testing covers the normal user flows and cases where the app needs to reject a request:
 
 - Authentication failures, CORS responses, eligibility and terms enforcement, and password-reset behavior.
 - Employer database routing, demo isolation, approved mail recipients, and sending budgets.
@@ -237,23 +253,25 @@ Development checks cover both expected behavior and boundaries that are easy to 
 - Campus theme restrictions and persistence, mobile form validation, photo reordering, touch-capture cancellation, and swipe direction handling.
 - Website/mobile type checks and builds, native development builds, and browser checks using fictional data.
 
-These are development validation activities, not claims of load-test results, a security audit, continuous production monitoring, or an automated CI pipeline. Native device and provider-dependent workflows require their own release checks.
+These checks have been run during development. I still need to add automated CI, load testing, and more physical-device testing before treating this as a finished release.
 
-## Improvements I would prioritize next
+## What I would improve next
 
-| Priority | Improvement | Engineering reason |
+| Priority | What I would change | Why |
 | --- | --- | --- |
-| 1 | Move images to S3-compatible object storage with upload validation and thumbnail generation. | Reduce database payloads, improve image delivery, and separate media lifecycle from relational records. |
-| 2 | Add an outbox/job queue with bounded retries and idempotent notification handling. | Recover from SMTP/provider outages without losing notifications or sending duplicates. |
-| 3 | Move filtering, sorting, and pagination fully into indexed database queries; measure query plans. | Avoid loading growing listing collections into application memory. |
-| 4 | Add structured metrics, request tracing, error reporting, and tested backup restoration. | Detect failures, locate slow paths, and verify recoverability instead of assuming it. |
-| 5 | Automate CI checks, migration verification, staging smoke tests, and deploy rollback checks. | Make releases repeatable across the website, API, database changes, and native clients. |
-| 6 | Extract shared contracts and validation; review native token storage and session renewal. | Reduce client drift and strengthen session handling as mobile distribution expands. |
-| 7 | Evaluate WebSocket/SSE messaging and complete push delivery. | The inbox currently refreshes through polling; persistent connections and push could improve timely updates with less repeated fetching. |
+| 1 | Move images to S3-compatible object storage with upload validation and thumbnail generation. | Keep large image files out of the database and load smaller previews in the feed. |
+| 2 | Add an outbox/job queue with bounded retries and idempotent notification handling. | Retry failed emails without losing notifications or sending the same one twice. |
+| 3 | Move filtering, sorting, and pagination fully into indexed database queries; measure query plans. | Fetch only the listings needed for a page instead of loading a growing collection into memory. |
+| 4 | Add structured metrics, request tracing, error reporting, and tested backup restoration. | Find slow requests and failures, and check that a backup can actually be restored. |
+| 5 | Automate CI checks, migration verification, staging smoke tests, and deploy rollback checks. | Catch problems before deploying and make it easier to recover from a bad release. |
+| 6 | Extract shared contracts and validation; review native token storage and session renewal. | Keep both clients consistent and improve how the app stores and renews sessions. |
+| 7 | Evaluate WebSocket/SSE messaging and complete push delivery. | Messages currently refresh through polling. WebSocket/SSE and push could make updates arrive sooner with fewer repeated requests. |
 | 8 | Complete LLC formation, organization developer-account setup, and store submission; expand device/accessibility testing. | Prepare App Store and Google Play releases, validate Android Google sign-in and signing, and test keyboard/safe-area behavior, screen readers, large text, and OS-specific restrictions on physical devices. |
 
-Before optimizing for scale, I would establish measurements for page latency, query cost, email failure rates, and media size. The next architecture change should address an observed bottleneck or reliability requirement.
+I would measure page load times, database queries, email failures, and image sizes before making bigger architecture changes. That would help me decide what actually needs work.
 
 ---
 
-**Built by Isaiah Maxwell.** Interested in the implementation or a technical walkthrough? [Request employer demo access](https://quaddl.com/contact) and mention the role or engineering areas you would like to discuss.
+**Isaiah Maxwell** · Architecture and project direction, with development assistance from ChatGPT and GitHub Copilot.
+
+Want to try it or talk through how it works? [Request employer demo access](https://quaddl.com/contact).
