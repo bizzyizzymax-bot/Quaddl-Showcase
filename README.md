@@ -126,7 +126,13 @@ Mobile-specific work includes:
 - A stepped registration flow, safe-area spacing, keyboard handling, and Android back navigation.
 - Contrast-aware light/dark campus colors, reduced-motion handling, and portrait-only configuration where supported by the operating system.
 
-**Distribution status:** Native development builds exist for iOS and Android; this showcase does not claim an App Store or Google Play release. Google sign-in was configured for web and iOS; Android OAuth configuration and release-signing validation remain release tasks. Push-notification support is represented by an installed native plugin, not a claim of verified end-to-end push delivery.
+### Store release status
+
+**Quaddl has not yet been uploaded or submitted to the Apple App Store or Google Play Store.** Native development builds exist for iOS and Android. The current release plan is waiting on **LLC formation** before proceeding with organization developer-account setup and store submissions.
+
+LLC setup is a pending business milestone for this project's release plan, rather than a statement that every app developer must form an LLC. Store availability will be added here after submission and approval.
+
+Google sign-in was configured for web and iOS; Android OAuth configuration and release-signing validation remain release tasks. Push-notification support is represented by an installed native plugin, not a claim of verified end-to-end push delivery.
 
 ## System architecture
 
@@ -244,7 +250,7 @@ These are development validation activities, not claims of load-test results, a 
 | 5 | Automate CI checks, migration verification, staging smoke tests, and deploy rollback checks. | Make releases repeatable across the website, API, database changes, and native clients. |
 | 6 | Extract shared contracts and validation; review native token storage and session renewal. | Reduce client drift and strengthen session handling as mobile distribution expands. |
 | 7 | Evaluate WebSocket/SSE messaging and complete push delivery. | The inbox currently refreshes through polling; persistent connections and push could improve timely updates with less repeated fetching. |
-| 8 | Finish store release work and expand device/accessibility testing. | Validate Android Google sign-in, signing, keyboard/safe-area behavior, screen readers, large text, and OS-specific restrictions on physical devices. |
+| 8 | Complete LLC formation, organization developer-account setup, and store submission; expand device/accessibility testing. | Prepare App Store and Google Play releases, validate Android Google sign-in and signing, and test keyboard/safe-area behavior, screen readers, large text, and OS-specific restrictions on physical devices. |
 
 Before optimizing for scale, I would establish measurements for page latency, query cost, email failure rates, and media size. The next architecture change should address an observed bottleneck or reliability requirement.
 
