@@ -1,7 +1,7 @@
 # Quaddl
 ### A campus marketplace I’m building as a college student
 
-[Website](https://quaddl.com) · [Request an employer demo](https://quaddl.com/contact) · [Mobile app](#mobile-app)
+[Live website: www.quaddl.com](https://www.quaddl.com) · [Request an employer demo](https://quaddl.com/contact) · [Mobile app](#mobile-app)
 
 I’m Isaiah Maxwell, a computer science student at UNC Charlotte. I built Quaddl around a pretty familiar problem: students need to get rid of things at the end of a semester, and other students need those same things a few months later. Finding an item, checking who is selling it, and arranging a pickup can end up spread across group chats and general marketplace apps.
 
@@ -13,33 +13,43 @@ This repository is a walkthrough of the project, not the application source. The
 
 ## A quick look
 
-![Quaddl website about page](media/website-about.jpg)
+![Quaddl website about page](media/website-about-new.png)
 
 ### Website
 
-![Website marketplace with fictional sample listings](media/website-marketplace.jpg)
+![Website marketplace with fictional sample listings](media/website-marketplace-new.png)
 
-The marketplace keeps search and filters close to the listings. I reduced the original oversized header so visitors can actually see items without scrolling through a landing page first. These captures show an earlier demo inventory with illustrated sample images or neutral placeholders.
+The marketplace keeps search and filters close to the listings. I reduced the original oversized header so visitors can actually see items without scrolling through a landing page first. These fresh captures use my supplied product photos in a local demo with fictional sellers and prices.
 
-![Website profile preview](media/website-profile.jpg)
+![Website profile preview](media/website-profile-new.png)
+
+![Website listing details](media/website-product-new.png)
 
 **Website screen gallery:**
 
-![Website screenshot gallery GIF](media/website-gallery.gif)
+![Website screenshot gallery GIF](media/website-gallery-new.gif)
 
 ### Mobile app
 
 The app shares the website’s fonts and campus colors, but I didn’t want it to feel like the desktop site squeezed into a phone.
 
 <p>
-  <img src="media/mobile-marketplace.png" alt="Mobile marketplace preview with fictional listings" width="260" />
-  <img src="media/mobile-camera.png" alt="Mobile camera and photo library selection drawer" width="260" />
-  <img src="media/mobile-settings.png" alt="Mobile settings sidebar in dark mode" width="260" />
+  <img src="media/mobile-marketplace-new.png" alt="Mobile marketplace preview with fictional listings" width="260" />
+  <img src="media/mobile-product-new.png" alt="Mobile listing detail with product photo" width="260" />
+  <img src="media/mobile-settings-new.png" alt="Mobile settings sidebar" width="260" />
 </p>
 
-![Mobile screenshot gallery GIF](media/mobile-gallery.gif)
+![Mobile screenshot gallery GIF](media/mobile-gallery-new.gif)
 
-*The GIFs cycle through real screenshots. They are screen galleries, not recordings of live gestures. Some screens were captured at different points during development, so small styling details vary.*
+*Captured November 10, 2026. The GIFs cycle through fresh screenshots, rather than recording live gestures. Marketplace and app screens use a local demo; the About page is from the live website. Mobile captures show the app interface in a phone-sized browser preview, not a store release. Screenshots were captured without mouse pointers.*
+
+### Demo product photos
+
+![Supplied product photos used for fictional demo listings](media/demo-product-photos.jpg)
+
+These photos make the sample inventory easier to explore. The sellers, prices, and availability in this demo are fictional.
+
+[Desk](media/demo-photo-1.jpg) · [Lamp](media/demo-photo-2.jpg) · [Books](media/demo-photo-3.jpg) · [Backpack](media/demo-photo-4.jpg) · [Headphones](media/demo-photo-5.jpg) · [Chair](media/demo-photo-6.jpg)
 
 ## What users can do
 
