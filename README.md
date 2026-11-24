@@ -1,7 +1,7 @@
 # Quaddl
 ### A campus marketplace I’m building as a college student
 
-[Live website: www.quaddl.com](https://www.quaddl.com) · [Request an employer demo](https://quaddl.com/contact) · [Mobile app](#mobile-app)
+[Live website](https://quaddl.com) · [UNC Charlotte registration](https://quaddl.com/register) · [Request an employer demo](https://quaddl.com/contact) · [Mobile app](#mobile-app)
 
 I’m Isaiah Maxwell, a computer science student at UNC Charlotte. I built Quaddl around a pretty familiar problem: students need to get rid of things at the end of a semester, and other students need those same things a few months later. Finding an item, checking who is selling it, and arranging a pickup can end up spread across group chats and general marketplace apps.
 
@@ -9,7 +9,9 @@ Quaddl puts listings, saved items, seller profiles, reviews, and conversations i
 
 This repository is a walkthrough of the project, not the application source. The source repositories are private. I wanted employers to be able to understand the build without having to dig through every file.
 
-> **Current status:** Quaddl is a prelaunch project with an invitation-only employer demo. Student access is being held back while I work through launch requirements. The mobile app has iOS and Android projects but is not published on the App Store or Google Play. Screens below use fictional demo data and include development previews; they are not evidence of a public student launch.
+> **Current status:** The live marketplace is open to UNC Charlotte students who verify an eligible campus email. Other student campuses are still closed. Approved employers can request access to a separate, invitation-only demo. The iOS and Android apps are in development, with signed builds tested on a physical iPhone. The app is not listed on the App Store or Google Play.
+
+[Terms of Service](https://quaddl.com/terms) · [Privacy Policy](https://quaddl.com/privacy)
 
 ## A quick look
 
@@ -72,7 +74,7 @@ An email address being verified is not the same thing as proving someone’s ide
 
 I’m not claiming Quaddl invented student marketplaces. Other apps already cover parts of this idea. My focus is on keeping the whole exchange connected to the campus context:
 
-- **A university-centered account model.** The intended student flow uses university email domains instead of starting with a broad citywide feed.
+- **A university-centered account model.** The backend uses a verified university email to determine campus access. UNC Charlotte email aliases lead to the same marketplace.
 - **The conversation stays with the item.** Listings, seller profiles, saves, and messages are part of the same product instead of separate group-chat threads.
 - **A mobile interface built around the task.** Listing creation is split into steps; photos can come from the camera or library; filters and confirmations use drawers where that makes sense.
 - **An employer demo that can actually be used.** An invited employer can use their own approved email, verify it, post a test listing, save an item, and reset their password without entering the student database.
@@ -152,6 +154,12 @@ sequenceDiagram
 
 The employer demo uses the same application, with a separate database selected on the server. Changing a campus theme changes the appearance; it does not grant access to that university’s student data. Demo emails are limited to approved recipients and have resend/sending limits. The UI labels the inventory **“Portfolio demo — sample listings.”**
 
+### Quaddl Plus billing pilot
+
+Quaddl Plus is available only in the employer demo. Eligible accounts can use Stripe Checkout on the website to subscribe at $0.99 per month or $9.99 per year, then manage or cancel renewal in the Stripe Customer Portal. Plus includes promotion credits, listing videos, aggregate listing analytics, and a higher active-listing allowance. UNC Charlotte students use the marketplace without Plus, promotions, video uploads, listing analytics, or the 10-active-listing cap.
+
+Students arrange pickup and pay each other directly. Stripe handles Quaddl Plus subscription payments only. Employers can review the core demo without buying a subscription.
+
 ## Tech stack
 
 | Part | Technologies and purpose |
@@ -163,6 +171,7 @@ The employer demo uses the same application, with a separate database selected o
 | Authentication | JWT with JJWT, password hashing, Google OAuth 2.0, email verification, and revocable persistent mobile sessions |
 | Persistence | PostgreSQL, Spring Data JPA, and Hibernate |
 | Location | Geoapify and MapLibre GL |
+| Subscription billing | Stripe embedded Checkout and Customer Portal for the employer-demo-only Quaddl Plus pilot |
 | Email | Spring Mail and SMTP, branded messages, recipient restrictions, and sending limits |
 | Hosting | Cloudflare Workers/static assets for the website; OVHcloud VPS, Docker Compose, and Caddy for the backend |
 | Search previews | Build-time rendering for public pages, route metadata, Open Graph/Twitter tags, sitemap, and robots controls |
@@ -205,7 +214,7 @@ I used ChatGPT and GitHub Copilot to help with implementation, debugging, and ex
 
 ## What I’d improve next
 
-- **Finish launch preparation.** Work through the business and policy requirements, then complete store signing, submissions, and device testing. I’m planning an LLC as part of my own launch process; it isn’t a technical dependency of the app.
+- **Support the UNC Charlotte launch.** Collect feedback from the first campus, expand device testing, and prepare the app for store submission.
 - **Test the critical flows end to end.** Add repeatable browser/device coverage for account recovery, posting/editing, messaging, and employer/student isolation.
 - **Make releases less manual.** Add CI checks, more repeatable deployments, health monitoring, and a documented rollback process.
 - **Improve media storage.** Move uploads toward object storage and a CDN, with predictable resizing and cleanup as usage grows.
