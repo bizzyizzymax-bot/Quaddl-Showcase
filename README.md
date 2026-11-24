@@ -21,7 +21,7 @@ This repository is a walkthrough of the project, not the application source. The
 
 ![Website marketplace with fictional sample listings](media/website-marketplace-new.png)
 
-The marketplace keeps search and filters close to the listings. I reduced the original oversized header so visitors can actually see items without scrolling through a landing page first. These fresh captures use my supplied product photos in a local demo with fictional sellers and prices.
+Search and filters sit just above the listing grid on the website. The mobile feed starts with search and categories so the first items are visible sooner.
 
 ![Website profile preview](media/website-profile-new.png)
 
@@ -43,7 +43,7 @@ The app shares the website’s fonts and campus colors, but I didn’t want it t
 
 ![Mobile screenshot gallery GIF](media/mobile-gallery-new.gif)
 
-*Captured November 10, 2026. The GIFs cycle through fresh screenshots, rather than recording live gestures. Marketplace and app screens use a local demo; the About page is from the live website. Mobile captures show the app interface in a phone-sized browser preview, not a store release. Screenshots were captured without mouse pointers.*
+*Captured November 23, 2026. The website and phone-sized mobile previews use fictional accounts and listings. The GIFs cycle through screenshots of the current interfaces.*
 
 ### Demo product photos
 
