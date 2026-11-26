@@ -33,6 +33,10 @@ Search and filters sit just above the listing grid on the website. The mobile fe
 
 ![Website screenshot gallery GIF](media/website-gallery-nov26.gif)
 
+### Phone website
+
+<img src="media/phone-web-marketplace-nov26.jpg" alt="Phone website marketplace with search, filters, and bottom navigation" width="260" />
+
 ### Mobile app
 
 The app shares the website’s fonts and campus colors, but I didn’t want it to feel like the desktop site squeezed into a phone.
