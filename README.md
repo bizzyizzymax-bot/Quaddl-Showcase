@@ -15,35 +15,37 @@ This repository is a walkthrough of the project, not the application source. The
 
 ## A quick look
 
-![Quaddl website about page](media/website-about-new.png)
+![Quaddl website about page](media/website-about-nov26.jpg)
 
 ### Website
 
-![Website marketplace with fictional sample listings](media/website-marketplace-new.png)
+![Website marketplace with fictional sample listings](media/website-marketplace-nov26.jpg)
 
 Search and filters sit just above the listing grid on the website. The mobile feed starts with search and categories so the first items are visible sooner.
 
-![Website profile preview](media/website-profile-new.png)
+![Website profile preview](media/website-profile-nov26.jpg)
 
-![Website listing details](media/website-product-new.png)
+![Website listing details](media/website-product-nov26.jpg)
+
+![Desktop Wanted board with sample requests and the Post a request button](media/website-wanted-nov26.jpg)
 
 **Website screen gallery:**
 
-![Website screenshot gallery GIF](media/website-gallery-new.gif)
+![Website screenshot gallery GIF](media/website-gallery-nov26.gif)
 
 ### Mobile app
 
 The app shares the website’s fonts and campus colors, but I didn’t want it to feel like the desktop site squeezed into a phone.
 
 <p>
-  <img src="media/mobile-marketplace-new.png" alt="Mobile marketplace preview with fictional listings" width="260" />
-  <img src="media/mobile-product-new.png" alt="Mobile listing detail with product photo" width="260" />
-  <img src="media/mobile-settings-new.png" alt="Mobile settings sidebar" width="260" />
+  <img src="media/mobile-marketplace-nov26.jpg" alt="Mobile marketplace preview with fictional listings" width="260" />
+  <img src="media/mobile-product-nov26.jpg" alt="Mobile listing detail with the photo viewer, title, price, and Message seller button" width="260" />
+  <img src="media/mobile-wanted-nov26.jpg" alt="Mobile Wanted board with sample requests" width="260" />
 </p>
 
-![Mobile screenshot gallery GIF](media/mobile-gallery-new.gif)
+![Mobile screenshot gallery GIF](media/mobile-gallery-nov26.gif)
 
-*Captured November 23, 2026. The website and phone-sized mobile previews use fictional accounts and listings. The GIFs cycle through screenshots of the current interfaces.*
+*Captured November 26, 2026, using fictional accounts and listings. The mobile screenshots come from the Capacitor browser preview. Each GIF cycles through screenshots from its respective preview.*
 
 ### Demo product photos
 
